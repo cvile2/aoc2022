@@ -10,10 +10,10 @@ int main() {
     long seen = 0; //part1
     priority_queue<long> cals; //part2
     while(std::getline(f,s)) {
-        if (s=="")
+        if (s.empty())
         {
-            cals.push(seen);
-            seen = 0;
+            cals.push(seen); //store total for elf in priorty ordered queue
+            seen = 0; //reset for next elf
         }
         else
             seen += atol(s.c_str());
