@@ -42,20 +42,15 @@ int part2(ifstream&& f) {
 
         if (i == 3) //process every 3 "rucksacks"
         {
-            int subtotal = 0;
-            //what i wanted to do, but need element position to give priority
-            //total += accumulate(found.begin(), found.end(), 0, [](auto& total, auto& bs){ return bs.count() == 3; });
             for(auto pos = 0; pos < 52; ++pos) 
             {
                 if (found[pos].count() == 3)
-                    subtotal += pos+1;
+                    total += pos+1;
                 found[pos].reset();
             }
-            total += subtotal;
             i = 0;
         }
     }
-
     return total;
 }
 

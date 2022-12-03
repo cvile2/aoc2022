@@ -9,7 +9,7 @@ int main() {
     std::string s;
     long seen = 0; //part1
     priority_queue<long> cals; //part2
-    while(std::getline(f,s)) {
+    while(std::getline(f,s)) {  //Write a get line iterator
         if (s.empty())
         {
             cals.push(seen); //store total for elf in priorty ordered queue
