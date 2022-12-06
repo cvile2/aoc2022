@@ -29,24 +29,23 @@ void aoc5(ifstream& f) {
 
     static const std::regex re("move ([0-9]+) from ([0-9]+) to ([0-9]+)");  
     std::smatch mt; 
-    while(std::getline(f,line)) { //now continue to read "move x from y to z" statements
+    
+    while(std::getline(f,line)) { //read "move x from y to z" statements
         std::regex_match(line, mt, re);
-        auto crate_count = stol(mt[1]);
-        auto from = stol(mt[2])-1; //minus index offset
-        auto to = stol(mt[3])-1;
+        auto count = stol(mt[1]), from = stol(mt[2])-1, to = stol(mt[3])-1;
         //I want this to be ranges::move and move_backwards - but can't get it to work yet..
-        ranges::reverse_copy(stacks[from].end()-crate_count, stacks[from].end(), back_inserter(stacks[to])); 
-        ranges::copy(stacks9001[from].end()-crate_count, stacks9001[from].end(), back_inserter(stacks9001[to])); 
+        ranges::reverse_copy(stacks[from].end()-count, stacks[from].end(), back_inserter(stacks[to])); 
+        ranges::copy(stacks9001[from].end()-count, stacks9001[from].end(), back_inserter(stacks9001[to])); 
         
-        for(auto p = crate_count; p>0; p--)
+        for(auto p = count; p>0; p--)
         {
             stacks[from].pop_back();
             stacks9001[from].pop_back();
         }
     }
-    std::for_each(stacks.begin(), stacks.end(), [](const auto & x ) { std::cout << (x.empty() ? '?' : x.back()); });
+    std::for_each(stacks.begin(), stacks.end(), [](auto& x ) { std::cout << (x.empty() ? '?' : x.back()); });
     cout << endl;
-    std::for_each(stacks9001.begin(), stacks9001.end(), [](const auto & x ) { std::cout << (x.empty() ? '?' : x.back()); });
+    std::for_each(stacks9001.begin(), stacks9001.end(), [](auto& x ) { std::cout << (x.empty() ? '?' : x.back()); });
 }
 
 int main() {
