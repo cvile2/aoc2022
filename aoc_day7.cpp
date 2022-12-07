@@ -14,7 +14,7 @@ struct dir {
 int parse(ifstream& f, dir& node) {
     string l;
     while(std::getline(f,l)) {
-        if(l.rfind("$ cd", 0) == 0) {
+        if(l[0] == '$' && l[2] == 'c') {
             auto name = l.substr(5);
             if(name == "..")
                 break; //exit recursion
@@ -22,9 +22,9 @@ int parse(ifstream& f, dir& node) {
             node.sub_dirs.push_back(dir{name});
             node.size+=parse(f, node.sub_dirs.back());
         }
-        else if (l[0] == '$' || l[0] == 'd') //ignore other commands and "dir"
+        else if (l[0] == '$'|| l[0] == 'd') //ignore other commands and "dir"
         { /*skip*/ }
-        else
+        else //now assume a filesize!
             node.size+=stoi(l.substr(0, l.find_first_of(" ")));
     }
     return node.size;
@@ -38,12 +38,12 @@ void find_size_le(const dir& node, const int target, int& total)
         total+=node.size;
 }
 
-int find_size_gt(const dir& node, const int target, int bestfit)
+int find_smallest_gt(const dir& node, const int target, int bestfit)
 {
     if(node.size < target)
         return bestfit;
     for( const auto& n : node.sub_dirs )
-        bestfit = min(find_size_gt(n, target, bestfit), bestfit);
+        bestfit = min(find_smallest_gt(n, target, bestfit), bestfit);
     return min(bestfit, node.size);
 }
 
@@ -58,6 +58,6 @@ int main() {
     find_size_le(root, 100000, lt_total);
     //Part2
     auto target = /*target*/ 30000000 - /*free space*/ (70000000 - total_size);
-    auto closest = find_size_gt(root, target, 70000000);
+    auto closest = find_smallest_gt(root, target, 70000000);
     cout << lt_total << "," << closest << endl;
 }
