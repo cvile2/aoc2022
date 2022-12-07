@@ -22,7 +22,7 @@ int parse(ifstream& f, dir& node) {
             node.sub_dirs.push_back(dir{name});
             node.size+=parse(f, node.sub_dirs.back());
         }
-        else if (l.rfind("$ ls", 0) == 0 || l.rfind("dir", 0) == 0)
+        else if (l[0] == '$' || l[0] == 'd') //ignore other commands and "dir"
         { /*skip*/ }
         else
             node.size+=stoi(l.substr(0, l.find_first_of(" ")));
