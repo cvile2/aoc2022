@@ -1,12 +1,9 @@
-//https://adventofcode.com/2022/day/8
 #include <fstream>
 #include <iostream>
 #include <vector>
-#include <array>
 using namespace std;
-
-struct Trees
-{
+//https://adventofcode.com/2022/day/8
+struct Trees {
     vector<string> grid;
     int max_x, max_y;
 
