@@ -10,8 +10,7 @@ struct Trees
     vector<string> grid;
     int max_x, max_y;
 
-    Trees(istream& f)
-    {
+    Trees(istream&& f) {
         string l;
         while (std::getline(f,l)) 
             grid.push_back(l);
@@ -45,8 +44,7 @@ struct Trees
 };
 
 int main() {
-    ifstream f{"AOC8.txt"}; 
-    Trees t(f);   
+    Trees t(ifstream{"AOC8.txt"});   
     int count = (t.max_x + t.max_y) * 2  - 4; //part 1
     int scenic = 0; //part 2
     for(int y = 1; y < t.max_y-1; ++y ) {
