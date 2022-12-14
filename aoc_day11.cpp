@@ -58,6 +58,12 @@ void process(ifstream&& f, const int rounds, const tNum not_interested) {
         //mk.print();
         monkeys.emplace_back(std::move(mk));
     }
+    //cheap way to find a divsor common to all
+    //However the true LCM can be lower is calculated correctly (with more code lines)
+    tNum mod_product = 1;
+    for(auto& m : monkeys)
+        mod_product *= m.div; 
+    
     vector<tNum> inspected(monkeys.size());
     for (int round = 1; round <= rounds; ++round) {
         for(size_t id = 0; id < monkeys.size(); ++id) {
@@ -68,7 +74,7 @@ void process(ifstream&& f, const int rounds, const tNum not_interested) {
                 wry = ((mk.op == 'o') ? wry * wry :   //old
                     (mk.op == '*' ? wry * mk.op_v : wry + mk.op_v))  //* or +
                     / not_interested; //now not interested
-                monkeys[(((wry % mk.div) == 0)? mk.ttrue : mk.tfalse)].items.emplace_back(wry);          
+                monkeys[(((wry % mk.div) == 0)? mk.ttrue : mk.tfalse)].items.emplace_back(wry % mod_product);          
                 inspected[id]++;
                 mk.items.pop_front();
             }
