@@ -94,8 +94,8 @@ void process(ifstream&& f, const int rounds, const tNum not_interested) {
 }
 
 int main() {
-    process(std::ifstream{"AOC11_example.txt"},20, 3); //passed
-    process(std::ifstream{"AOC11.txt"}, 20, 3); //passed
-    process(std::ifstream{"AOC11_example.txt"},10000, 1); //not working overflow
-    process(std::ifstream{"AOC11.txt"}, 10000, 1); //not working overflow
+    process(std::ifstream{"AOC11_example.txt"},20, 3);
+    process(std::ifstream{"AOC11.txt"}, 20, 3); 
+    process(std::ifstream{"AOC11_example.txt"},10000, 1); 
+    process(std::ifstream{"AOC11.txt"}, 10000, 1); 
 }
