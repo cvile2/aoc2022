@@ -14,13 +14,11 @@ int part1(ifstream&& f) {
     long total = 0; 
     array<std::bitset<2>, 52> found;
     while(getline(f,s)) { 
-        for(auto pos = 0; pos < s.size()/2; ++pos) //O(n) scan two halfs of rucksack
-        {
+        for(auto pos = 0; pos < s.size()/2; ++pos) { //O(n) scan two halfs of rucksack
             found[calc_priorty(s[pos])][0] = true;        
             found[calc_priorty(s[pos+s.size()/2])][1] = true;
         }
-        for(auto pos = 0; pos < 52; ++pos) 
-        {
+        for(auto pos = 0; pos < 52; ++pos) {
             if (found[pos].count() == 2)
                 total += pos+1;
             found[pos].reset(); //avoid needing to create new memory for each line
@@ -34,16 +32,13 @@ int part2(ifstream&& f) {
     long total = 0; 
     array<std::bitset<3>, 52> found;
     int i = 0;
-    while(getline(f,s)) 
-    {
+    while(getline(f,s)) {
         for(auto c : s)
             found[calc_priorty(c)][i] = true;
         ++i;
 
-        if (i == 3) //process every 3 "rucksacks"
-        {
-            for(auto pos = 0; pos < 52; ++pos) 
-            {
+        if (i == 3) { //process every 3 "rucksacks"
+            for(auto pos = 0; pos < 52; ++pos) {
                 if (found[pos].count() == 3)
                     total += pos+1;
                 found[pos].reset();

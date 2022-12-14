@@ -2,6 +2,8 @@
 #include <fstream>
 #include <iostream>
 #include <list>
+#include <vector>
+#include <algorithm>
 using namespace std;
 
 struct dir {
@@ -9,7 +11,9 @@ struct dir {
     string name;
     int size = 0;
     list<dir> sub_dirs;
+    int operator()() const { return size; };
 };
+
 //Parse our file into a tree
 int parse(ifstream& f, dir& node) {
     string l;
@@ -19,7 +23,7 @@ int parse(ifstream& f, dir& node) {
             if(name == "..")
                 break; //exit recursion
             
-            node.sub_dirs.push_back(dir{name});
+            node.sub_dirs.emplace_back(dir{name});
             node.size+=parse(f, node.sub_dirs.back());
         }
         else if (l[0] == '$'|| l[0] == 'd') //ignore other commands and "dir"
@@ -30,16 +34,14 @@ int parse(ifstream& f, dir& node) {
     return node.size;
 }
 
-void find_size_le(const dir& node, const int target, int& total)
-{
+void find_size_le(const dir& node, const int target, int& total) {
     for( const auto& n : node.sub_dirs )
         find_size_le(n, target, total);
     if (node.size <= target)
         total+=node.size;
 }
 
-int find_smallest_gt(const dir& node, const int target, int bestfit)
-{
+int find_smallest_gt(const dir& node, const int target, int bestfit) {
     if(node.size < target)
         return bestfit;
     for( const auto& n : node.sub_dirs )

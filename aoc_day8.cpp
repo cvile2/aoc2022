@@ -1,8 +1,8 @@
+//https://adventofcode.com/2022/day/8
 #include <fstream>
 #include <iostream>
 #include <vector>
 using namespace std;
-//https://adventofcode.com/2022/day/8
 struct Trees {
     vector<string> grid;
     int max_x, max_y;
