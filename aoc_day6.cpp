@@ -17,8 +17,7 @@ int scan_message(int range_limt)
     
     int s = 0; int e = range_limt - 1; //sliding window
     
-    while (e < l.size())
-    {
+    while (e < l.size()) {
         if (std::all_of(freq.begin(), freq.end(), [](auto c){return c<=1;}))
             return e+1; //found!
 
