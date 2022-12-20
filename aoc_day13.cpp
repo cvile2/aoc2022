@@ -37,27 +37,24 @@ int process(ifstream&& f) {
                     covertIntToList(lft, l_pos);
                 }
                 //one list , ont integer
-                else if (isdigit(rgt_char)  && lft_char == '[') {
+                else if (isdigit(rgt_char) && lft_char == '[') {
                     covertIntToList(rgt, r_pos);
                 }
-                else if (rgt_char == ']') { //RIGHT List runs out 
+                else if (rgt_char == ']') { //RIGHT List runs out = OUT OF ORDER
                     ooo = true;
                     break;
                 }
-                else if (lft_char == ']') { //LEFT List runs out 
+                else if (lft_char == ']') { //LEFT List runs out = IN ORDER
                     break;
                 }
                 else if(isdigit(lft_char) && isdigit(rgt_char)) { //number compare
                     
                     int li = getNum(lft, l_pos);
                     int ri = getNum(rgt, r_pos);
-                    if (li != ri) { //if different we must exit
+                    if (li != ri) { 
                         ooo = li>ri;
-                        break;
+                        break;  //if different we must exit 
                     }
-                }
-                else {
-                    cout << "\n\n\n BAD HERE \n\n\n ";
                 }
             }
         }
