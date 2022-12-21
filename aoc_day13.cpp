@@ -14,7 +14,7 @@ int getNum(const string& s, size_t& pos) {
     return i;
 }
 
-//expensive, inplace conversion, so we can continue string scan seemlessly
+//potentially expensive, inplace conversion, so we can continue string scan seemlessly
 void covertIntToList(string& s, int pos) {
     int offset = (isdigit(s.at(pos+1)) ? 3 : 2);
     s.insert(pos,"[");  
@@ -22,32 +22,28 @@ void covertIntToList(string& s, int pos) {
     //cout << " converted " << s << ",";
 }
 
-bool comp(const string& l, const string& r) {
-    auto lft = l;
-    auto rgt = r;
+bool comp(string lft, string rgt) {
     size_t l_pos = 0, r_pos = 0;
     for(; l_pos<lft.size() && r_pos<rgt.size(); ++l_pos, ++r_pos) {
-        char lft_char = lft.at(l_pos);
-        char rgt_char = rgt.at(r_pos);
-        if(lft_char != rgt_char) {
+        char l_char = lft.at(l_pos), r_char = rgt.at(r_pos);
+        if(l_char != r_char) {
             //one list , ont integer
-            if (isdigit(lft_char) && rgt_char == '[') {
+            if (isdigit(l_char) && r_char == '[') {
                 covertIntToList(lft, l_pos);
             }
             //one list , ont integer
-            else if (isdigit(rgt_char) && lft_char == '[') {
+            else if (isdigit(r_char) && l_char == '[') {
                 covertIntToList(rgt, r_pos);
             }
-            else if (rgt_char == ']') { //RIGHT List runs out = OUT OF ORDER
+            else if (r_char == ']') { //RIGHT List runs out = OUT OF ORDER
                 return false;
             }
-            else if (lft_char == ']') { //LEFT List runs out = IN ORDER
+            else if (l_char == ']') { //LEFT List runs out = IN ORDER
                 return true;
             }
-            else if(isdigit(lft_char) && isdigit(rgt_char)) { //number compare
+            else if(isdigit(l_char) && isdigit(r_char)) { //number compare
                 
-                int li = getNum(lft, l_pos);
-                int ri = getNum(rgt, r_pos);
+                int li = getNum(lft, l_pos), ri = getNum(rgt, r_pos);
                 if (li != ri) { 
                     return li<ri;
                 }
@@ -75,8 +71,8 @@ int process2(ifstream&& f) {
     vector<string> packets;
     while(getline(f,lft) && getline(f,rgt)) {
         getline(f, blank);
-        packets.emplace_back(lft);
-        packets.emplace_back(rgt);
+        packets.push_back(lft);
+        packets.push_back(rgt);
     }
     packets.push_back("[[2]]");
     packets.push_back("[[6]]");
@@ -86,8 +82,10 @@ int process2(ifstream&& f) {
         //cout << packets[i]  << endl;
         if (packets[i] == "[[2]]")
             total = i+1;        
-        else if (packets[i] == "[[6]]")
+        else if (packets[i] == "[[6]]") {
             total *= i+1;        
+            break;
+        }
     }
     return total; 
 }
