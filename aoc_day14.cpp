@@ -99,7 +99,7 @@ public:
         maxx = maxx-minx+1; //recalibrate to 0 to n grid
         maxy = maxy-miny+1;
         
-        vector<string> grid(maxy, string(maxx, '.'));
+        vector<string> grid(maxy, string(maxx, '.')); //air
         for( size_t i = 0; i < paths.size(); ++i )  {
             auto& from = paths[i][0];
             for( size_t j = 1; j < paths[i].size(); ++j) {
@@ -108,12 +108,12 @@ public:
                 from = to;
             }
         }
-        int sandCount = 0;
-        while((can_fall(grid, { 500-minx,0 }) 
+        int sand = 0;
+        while((can_fall(grid, { 500-minx,0 }) //check if full (part2) 
             && !fall(grid, { 500-minx,0 }))) {
-            sandCount++;
+            sand++;
         }
-        return sandCount; 
+        return sand; 
     }
 };
 
